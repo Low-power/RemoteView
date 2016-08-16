@@ -21,6 +21,7 @@ namespace RemoteView
         /// <summary>
         /// Constructor
         /// </summary>
+		private Thread thread = null;
         public Server()
         {
 
@@ -62,7 +63,8 @@ namespace RemoteView
                 listener.IgnoreWriteExceptions = true;
                 listener.Start();
 
-                new Thread(Start).Start();
+                this.thread = new Thread(Start);
+				this.thread.Start();
             }
             catch
             {
@@ -71,6 +73,10 @@ namespace RemoteView
 
             return this;
         }
+		
+		public void WaitForDisconnected() {
+			this.thread.Join();
+		}
 
         /// <summary>
         /// This where the server runs

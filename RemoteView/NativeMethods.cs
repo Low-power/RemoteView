@@ -106,7 +106,9 @@ namespace RemoteView
 
         public static int CalculateAbsoluteCoordinateX(int x)
         {
+			Console.WriteLine("Width: " +  GetSystemMetrics(SystemMetric.SM_CXSCREEN));
             return (x * 65536) / GetSystemMetrics(SystemMetric.SM_CXSCREEN);
+			
         }
 
         public static int CalculateAbsoluteCoordinateY(int y)

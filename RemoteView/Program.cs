@@ -97,11 +97,12 @@ namespace RemoteView
                     Console.WriteLine("Could not start server... Exiting.");
                     return;
                 }
+				server.WaitForDisconnected();
+                //Console.WriteLine("Server running press [c] to stop");
+                //while (server.IsRunning() && Console.ReadKey(true).Key != ConsoleKey.C)
+                //    ;
+                //server.Stop();
 
-                Console.WriteLine("Server running press [c] to stop");
-                while (server.IsRunning() && Console.ReadKey(true).Key != ConsoleKey.C)
-                    ;
-                server.Stop();
             }
         }
 
