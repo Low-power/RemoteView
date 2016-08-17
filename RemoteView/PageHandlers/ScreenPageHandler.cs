@@ -45,7 +45,7 @@ namespace RemoteView.PageHandlers
             caches[toReload] = SerializeScreenImage(toReload);
 #if DEBUG
             perfCounter.Stop();
-            Console.WriteLine("Time elapsed: {0}", perfCounter.Elapsed);
+            Console.Error.WriteLine("Time elapsed: {0}", perfCounter.Elapsed);
 #endif
         }
 

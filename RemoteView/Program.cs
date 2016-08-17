@@ -35,7 +35,7 @@ namespace RemoteView
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
+				Console.Error.WriteLine(e);
 				return;
 			}
 
@@ -54,7 +54,7 @@ namespace RemoteView
 
 			if (!conf.AllowMultiple && !InstanceIsUnique())
 			{
-				Console.WriteLine("Only one instance of process allowed. User -m for muliple instances.");
+				Console.Error.WriteLine("Only one instance of process allowed. User -m for muliple instances.");
 				return;
 			}
 
@@ -62,7 +62,7 @@ namespace RemoteView
 
 			if (!HttpListener.IsSupported)
 			{
-				Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
+				Console.Error.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
 				return;
 			}
 
@@ -94,13 +94,10 @@ namespace RemoteView
 			{
 				if (!server.IsRunning())
 				{
-					Console.WriteLine("Could not start server... Exiting.");
+					Console.Error.WriteLine("Could not start server... Exiting.");
 					return;
 				}
 				server.WaitForDisconnected();
-				//Console.WriteLine("Server running press [c] to stop");
-				//while (server.IsRunning() && Console.ReadKey(true).Key != ConsoleKey.C)
-				//    ;
 				//server.Stop();
 			}
 		}

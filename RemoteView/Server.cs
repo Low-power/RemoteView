@@ -58,7 +58,7 @@ namespace RemoteView
 		{
 			try
 			{
-				Console.WriteLine("Starting server at {0}:{1}", address, port);
+				Console.Error.WriteLine("Starting server at {0}:{1}", address, port);
 				listener.Prefixes.Add("http://" + address + ":" + port + "/");
 				listener.IgnoreWriteExceptions = true;
 				listener.Start();
@@ -68,7 +68,7 @@ namespace RemoteView
 			}
 			catch
 			{
-				Console.WriteLine("Could not listen on port: {0}.", port);
+				Console.Error.WriteLine("Could not listen on port: {0}.", port);
 			}
 
 			return this;
@@ -93,7 +93,7 @@ namespace RemoteView
 					HttpListenerContext context = listener.GetContext();
 
 #if DEBUG
-					Console.WriteLine (context.Request.RawUrl);
+					Console.Error.WriteLine (context.Request.RawUrl);
 #endif
 
 					String[] uri = context.Request.RawUrl.Split('/');
@@ -119,7 +119,7 @@ namespace RemoteView
 				catch (Exception e)
 				{
 					if (listener.IsListening)
-						Console.WriteLine(e.Message);
+						Console.Error.WriteLine(e);
 				}
 				finally
 				{
