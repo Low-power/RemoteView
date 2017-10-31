@@ -22,7 +22,7 @@ namespace RemoteView
 		/// Constructor
 		/// </summary>
 		private Thread thread = null;
-		public Server()
+		public Server(bool w)
 		{
 
 			// Homepage 
@@ -30,15 +30,17 @@ namespace RemoteView
 			decoder.Add("home", new HomePageHandler());
 
 			// javascript page handles client side clicks and screen image updates
-			decoder.Add("script", new JavascriptPageHandler());
+			decoder.Add("script", new JavascriptPageHandler(w));
 
 			// information about the system
 			decoder.Add("info", new InfoPageHandler());
 
-			// this pages process clicks into server side windows events
-			decoder.Add("leftclick", new LeftClickPageHandler());
-			decoder.Add("rightclick", new RightClickPageHandler());
-			decoder.Add("mousemove", new MouseMovePageHandler());
+			if(w) {
+				// this pages process clicks into server side windows events
+				decoder.Add("leftclick", new LeftClickPageHandler());
+				decoder.Add("rightclick", new RightClickPageHandler());
+				decoder.Add("mousemove", new MouseMovePageHandler());
+			}
 
 			// image of choosen device as a png
 			decoder.Add("screen", new ScreenPageHandler());
@@ -66,9 +68,10 @@ namespace RemoteView
 				this.thread = new Thread(Start);
 				this.thread.Start();
 			}
-			catch
+			catch(Exception e)
 			{
-				Console.Error.WriteLine("Could not listen on port: {0}.", port);
+				Console.Error.WriteLine("Could not listen on port {0}.", port);
+				Console.Error.WriteLine(e);
 			}
 
 			return this;

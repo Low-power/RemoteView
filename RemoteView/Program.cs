@@ -90,9 +90,10 @@ namespace RemoteView
 		/// <param name="conf">server configuration</param>
 		private static void RunServer(Configuration conf)
 		{
-			using (Server server = new Server().Start(conf.IpAddress, conf.Port))
+			Console.Error.WriteLine("Running in {0} mode", conf.AllowWrite ? "remote control" : "view only");
+			using (Server server = new Server(conf.AllowWrite).Start(conf.IpAddress, conf.Port))
 			{
-				if (!server.IsRunning())
+				if (server == null || !server.IsRunning())
 				{
 					Console.Error.WriteLine("Could not start server... Exiting.");
 					return;
@@ -116,6 +117,7 @@ namespace RemoteView
 			Console.WriteLine("Options: -ip :\tBind ip;");
 			Console.WriteLine("         -b  :\tDon't show banner message;");
 			Console.WriteLine("         -m  :\tAllow multiple instances;");
+			Console.WriteLine("         -r  :\tRead only;");
 			Console.WriteLine("         -h  :\tHelp (This screen);");
 			//Console.WriteLine("\t-i :\tInstall as Windows service");
 			//Console.WriteLine("\t-u :\tUninstall as Windows service");

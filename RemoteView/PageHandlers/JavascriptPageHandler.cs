@@ -7,6 +7,12 @@ namespace RemoteView.PageHandlers
 {
     class JavascriptPageHandler : AbstractPageHandler
     {
+		public JavascriptPageHandler(bool allow_mouse) {
+			AllowMouse = allow_mouse;
+		}
+
+		private bool AllowMouse;
+
         // screen devices list
         private Screen[] screens = Screen.AllScreens;
 
@@ -33,11 +39,13 @@ namespace RemoteView.PageHandlers
                 "var mouseMoveEvt = null;" + Environment.NewLine +
 
                 // listeners for mouse actions
-                "image.addEventListener('contextmenu', function(e){ rightclick(e); });" + Environment.NewLine +
-                "image.addEventListener('mousedown', function(e){ mouseDown(e); });" + Environment.NewLine +
-                "image.addEventListener('mouseup', function(e){ mouseUp(e); });" + Environment.NewLine +
+                (AllowMouse ? (
+			"image.addEventListener('contextmenu', function(e){ rightclick(e); });" + Environment.NewLine +
+			"image.addEventListener('mousedown', function(e){ mouseDown(e); });" + Environment.NewLine +
+			"image.addEventListener('mouseup', function(e){ mouseUp(e); });" + Environment.NewLine +
+			"image.addEventListener('mousemove', function(e){ mouseMove(e); } );" + Environment.NewLine) :
+			Environment.NewLine) +
                 "image.addEventListener('load', setReloadTimeout );" + Environment.NewLine +
-                "image.addEventListener('mousemove', function(e){ mouseMove(e); } );" + Environment.NewLine +
 
                 // interval to ask server for a new screen image
                 "setInterval('imageLoader();', 5555);" + Environment.NewLine +

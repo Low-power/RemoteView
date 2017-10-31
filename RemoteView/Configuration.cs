@@ -11,6 +11,8 @@ namespace RemoteView
         /// </summary>
         public bool AllowMultiple { get; private set; }
 
+	public bool AllowWrite { get; private set; }
+
         /// <summary>
         /// Display banner
         /// </summary>
@@ -43,6 +45,7 @@ namespace RemoteView
             this.Help = false;
             this.Port = 6060;
             this.IpAddress = "*";
+		this.AllowWrite = true;
         }
 
         public static Configuration create(string[] parameters)
@@ -95,6 +98,10 @@ namespace RemoteView
                     enumerator.MoveNext();
                     conf.IpAddress = (string)enumerator.Current;
                 }
+                else if (parameter.Equals("-r"))
+                {
+			conf.AllowWrite = false;
+		}
                 else
                 {
                     throw new ArgumentException(string.Format("Error: {0} is an invalid command line parameter.", parameter));
