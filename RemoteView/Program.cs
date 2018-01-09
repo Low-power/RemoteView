@@ -23,7 +23,7 @@ namespace RemoteView
 		/// </summary>
 		/// <param name="args"></param>
 		[STAThreadAttribute]
-		static void Main(string[] args)
+		static int Main(String[] args)
 		{
 
 			// get configuration from command line parameters
@@ -36,7 +36,7 @@ namespace RemoteView
 			catch (Exception e)
 			{
 				Console.Error.WriteLine(e);
-				return;
+				return 1;
 			}
 
 			if (conf.Banner)
@@ -47,7 +47,7 @@ namespace RemoteView
 			if (conf.Help)
 			{
 				ShowHelpMessage();
-				return;
+				return 0;
 			}
 
 			// make sure only one instance is online
@@ -55,7 +55,7 @@ namespace RemoteView
 			if (!conf.AllowMultiple && !InstanceIsUnique())
 			{
 				Console.Error.WriteLine("Only one instance of process allowed. User -m for muliple instances.");
-				return;
+				return 1;
 			}
 
 			// check if http listener is supported
@@ -63,11 +63,17 @@ namespace RemoteView
 			if (!HttpListener.IsSupported)
 			{
 				Console.Error.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
-				return;
+				return 1;
 			}
 
-			// run server
-			RunServer(conf);
+			try {
+				// run server
+				RunServer(conf);
+			} catch(Exception e) {
+				Console.Error.WriteLine(e);
+				return 2;
+			}
+			return 1;
 		}
 
 		/// <summary>
